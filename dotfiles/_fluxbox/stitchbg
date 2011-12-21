@@ -1,0 +1,77 @@
+#!/usr/bin/env python
+# -;- python -;-
+
+import re
+import os
+import os.path
+import random
+import tempfile
+from subprocess import Popen, PIPE
+
+try:
+    import gtk.gdk
+except:
+    print "Oops, I couldn't import GTK.  Could you install that for me?"
+try:
+    from PIL import Image
+except:
+    print "no pil"
+
+BACKGROUND_PATH = '~/.fluxbox/backgrounds'
+SET_BG_COMMAND = 'fbsetbg -t {0}'
+
+# Sets the overall X screen size (global variable) and returns a list
+# of monitors and their offsets and sizes.  Thanks to this guy:
+# http://stackoverflow.com/questions/836086/programmatically-determining-individual-screen-widths-heights-in-linux-w-xineram/3190574#3190574
+# for the idea of using pygtk!
+def get_monitors():
+    global stitched_size
+    monitors = []
+    screen = gtk.gdk.screen_get_default()
+    stitched_size = (screen.get_width(), screen.get_height())
+    for i in range(0, int(screen.get_n_monitors())):
+        geom = screen.get_monitor_geometry(i)
+        monitors.append(((geom.x, geom.y), (geom.width, geom.height)))
+    return monitors
+
+# Returns all of the images in the background directory, organized by
+# size (because stretching is gross).
+def get_images():
+    path = os.path.expanduser(BACKGROUND_PATH)+'/'
+    imgs = {}
+    for item in os.listdir(path):
+        try:
+            out = runcmd(['identify', path+item])
+            dims = tuple(map(int, out.split()[2].split('x')))
+            if not dims in imgs: imgs[dims] = []
+            imgs[dims].append(item)
+        except:
+            pass
+    return imgs
+
+# Returns stdout from the command.
+def runcmd(args):
+    out = Popen(args, shell=False, bufsize=4096, stdout=PIPE, stderr=PIPE).communicate()
+    return out[0]
+
+# Given a list of screens offsets and sizes and the output of get_images(),
+# stitch together a new background using imagemagick and set it.
+def stitch_bg(screens, images):
+    path = os.path.expanduser(BACKGROUND_PATH)+'/'
+    outimg = Image.new('RGB', stitched_size)
+    already_used = []
+    for offset, size in screens:
+        if not size in images: continue
+        filename = random.choice([f for f in images[size] if (not f in already_used)])
+        already_used.append(filename)
+        rawimg = Image.open(path+filename)
+        outimg.paste(rawimg, offset)
+    f = tempfile.NamedTemporaryFile(suffix='.png')
+    outimg.save(f.name)
+    runcmd(SET_BG_COMMAND.format(f.name).split(' '))
+    f.close()
+
+if __name__ == '__main__':
+    monitors = get_monitors()
+    images = get_images()
+    stitch_bg(monitors, images)

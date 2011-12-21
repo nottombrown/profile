@@ -1,0 +1,33 @@
+; Global settings
+(add-to-list 'load-path "~/.emacs.d/modes/")
+(setq default-tab-width 4)
+
+; JavaScript
+(autoload 'espresso-mode "espresso" nil t)
+(autoload 'js2-mode "js2-mode" nil t)
+(load "kk-js")
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+
+; CoffeeScript
+(require 'coffee-mode)
+(setq coffee-tab-width 2)
+
+; Solarized color scheme
+(add-to-list 'load-path "~/.emacs.d/themes/")
+(if
+    (equal 0 (string-match "^24" emacs-version))
+    ;; it's emacs24, so use built-in theme
+    (require 'solarized-dark-theme)
+  ;; it's NOT emacs24, so use color-theme
+  (progn
+    (require 'color-theme)
+    (color-theme-initialize)
+    (require 'color-theme-solarized)
+    (color-theme-solarized-dark)))
+
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+)

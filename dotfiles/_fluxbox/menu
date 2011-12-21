@@ -1,0 +1,34 @@
+[begin] (fluxbox)
+#[include] (/etc/X11/fluxbox/fluxbox-menu)
+	   [exec] (Shell) {rxvt-unicode} </usr/share/pixmaps/gnome-term.png>
+	   [exec] (Chromium) {chromium-browser} </usr/share/pixmaps/chromium-browser.png>
+	   [exec] (Nautilus) {nautilus --no-desktop} <>
+	   [submenu] (Media) {}
+	         [exec] (Pandora) {pandora} <~/.fluxbox/pixmaps/pandora.jpg>
+	         [exec] (Spotify) {spotify} </usr/share/pixmaps/spotify-linux-512x512.png>
+	   	     [exec] (Calibre) {calibre} </usr/share/pixmaps/calibre.png>
+		     [exec] (VLC) {vlc} <~/.fluxbox/pixmaps/vlc.gif>
+	   [end]
+	   [submenu] (Comm) {}
+	   		 [exec] (HipChat) {hipchat} <~/.fluxbox/pixmaps/hipchat.png>
+	   	     [exec] (Pidgin) {pidgin} </usr/share/pixmaps/pidgin-menu.xpm>
+		     [exec] (Transmission) {transmission-gtk} </usr/share/pixmaps/transmission.png>
+	   [end]
+	   [submenu] (Virtualization) {}
+	   	   [exec] (VirtualBox) {VirtualBox} <>
+	   	   [exec] (VMware Workstation) {vmware} <>
+	   [end]
+	   [submenu] (Games) {}
+	   	     [exec] (Steam) {wine "C:\Program Files\Steam\Steam.exe"} <>
+	   [end]
+	   [submenu] (System) {}
+	   	   [exit] (Logout)
+	   	   [config] (Configuraton)
+		   [submenu] (Styles)
+		   	     [stylesdir] (~/.fluxbox/styles)
+		   [end]
+	   	   [workspaces] (Workspaces)
+	   	   [reconfig] (Reconfigure)
+	   	   [restart] (Restart WM)
+	   [end]
+[end]
