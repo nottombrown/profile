@@ -3,5 +3,7 @@
 	email = kelleyk@kelleyk.net
 [core]
 	excludesfile = /home/kelleyk/.gitignore_global
-[diff]
-	external = /home/kelleyk/scripts/git-diff-wrapper.sh
+[alias]
+	meld = !/home/kelleyk/.git-meld.pl
+#[diff]
+#	external = /home/kelleyk/scripts/git-diff-wrapper.sh

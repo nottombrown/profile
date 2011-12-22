@@ -8,6 +8,7 @@ DOTFILES = {
     '.emacs': None,
     '.emacs.d/modes': None,
     '.emacs.d/themes': None,
+    '.emacs.d/color-theme.el': None,
     '.fluxbox': None,
     '.ssh/config': None,
     '.ssh/authorized_keys': None,
@@ -15,6 +16,7 @@ DOTFILES = {
     '.js': None,
     '.gitignore_global': None,
     '.gitconfig': None,
+    '.git-meld.pl': None,
     '.bashrc': None,
     '.Xdefaults': None,
 }
@@ -24,7 +26,12 @@ debug = '--debug' in sys.argv[1:] or '-d' in sys.argv[1:]
 testrun = '--test' in sys.argv[1:] or '-t' in sys.argv[1:]
 force = '--force' in sys.argv[1:] or '-f' in sys.argv[1:]
 home = os.path.abspath(os.path.expanduser('~/'))
-dotfiledir = os.path.abspath(os.path.dirname(__file__)+'/dotfiles')
+dotfiledir = os.path.abspath(os.path.dirname(os.path.realpath(__file__))+'/dotfiles')
+
+if debug:
+    print 'Home:\t'+home
+    print 'Dotfiles:\t'+dotfiledir
+    print
 
 # With inspiration from
 # https://github.com/jbernard/dotfiles/blob/develop/dotfiles/core.py
