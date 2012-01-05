@@ -18,9 +18,6 @@
 	   	   [exec] (VirtualBox) {VirtualBox} <>
 	   	   [exec] (VMware Workstation) {vmware} <>
 	   [end]
-	   [submenu] (Games) {}
-	   	     [exec] (Steam) {wine "C:\Program Files\Steam\Steam.exe"} <>
-	   [end]
 	   [submenu] (System) {}
 	   	   [exit] (Logout)
 	   	   [config] (Configuraton)

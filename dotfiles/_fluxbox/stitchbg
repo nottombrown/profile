@@ -4,6 +4,7 @@
 import re
 import os
 import os.path
+import sys
 import random
 import tempfile
 from subprocess import Popen, PIPE
@@ -12,10 +13,18 @@ try:
     import gtk.gdk
 except:
     print "Oops, I couldn't import GTK.  Could you install that for me?"
+    sys.exit(1)
 try:
     from PIL import Image
 except:
-    print "no pil"
+    print "Oops, I couldn't import PIL.  Could you install that for me?"
+    sys.exit(1)
+try:
+    Popen('identify').wait()
+except OSError:
+    print "Oops, I couldn't run `identify` from ImageMagick.  Could you install that for me?"
+    sys.exit(1)
+
 
 BACKGROUND_PATH = '~/.fluxbox/backgrounds'
 SET_BG_COMMAND = 'fbsetbg -t {0}'
@@ -73,5 +82,7 @@ def stitch_bg(screens, images):
 
 if __name__ == '__main__':
     monitors = get_monitors()
+    print monitors
     images = get_images()
+    print images
     stitch_bg(monitors, images)
